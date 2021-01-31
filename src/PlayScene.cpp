@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include "Game.h"
 #include "EventManager.h"
+#include "SoundManager.h"
 
 // required for IMGUI
 #include "imgui.h"
@@ -11,6 +12,11 @@
 PlayScene::PlayScene()
 {
 	PlayScene::start();
+
+	// Background Music
+	SoundManager::Instance().load("../Assets/audio/aurore.mp3", "BGM", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("BGM", -1, 0);
+	SoundManager::Instance().setMusicVolume(16);
 }
 
 PlayScene::~PlayScene()
@@ -46,16 +52,22 @@ void PlayScene::handleEvents()
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
 		TheGame::Instance()->quit();
+
+		SoundManager::Instance().stopMusic(0);
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
 	{
 		TheGame::Instance()->changeSceneState(START_SCENE);
+
+		SoundManager::Instance().stopMusic(0);
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
 		TheGame::Instance()->changeSceneState(END_SCENE);
+
+		SoundManager::Instance().stopMusic(0);
 	}
 }
 
