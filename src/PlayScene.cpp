@@ -16,7 +16,7 @@ PlayScene::PlayScene()
 	// Background Music
 	SoundManager::Instance().load("../Assets/audio/aurore.mp3", "BGM", SOUND_MUSIC);
 	SoundManager::Instance().playMusic("BGM", -1, 0);
-	SoundManager::Instance().setMusicVolume(16);
+	SoundManager::Instance().setMusicVolume(32);
 }
 
 PlayScene::~PlayScene()
