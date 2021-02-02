@@ -54,6 +54,7 @@ private:
 	GameObjectType m_type;
 
 	bool m_enabled;
+	bool m_chase;
 };
 
 #endif /* defined (__GAME_OBJECT__) */

@@ -16,6 +16,7 @@ SpaceShip::SpaceShip()
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
+	setEnabled(false);
 	setType(SPACE_SHIP);
 	setMaxSpeed(10.0f);
 	setOrientation(glm::vec2(0.0f, -1.0f));
@@ -32,11 +33,18 @@ void SpaceShip::draw()
 	TextureManager::Instance()->draw("spaceship", 
 		getTransform()->position.x, getTransform()->position.y, m_rotationAngle, 255, true);
 
-	Util::DrawLine(getTransform()->position, (getTransform()->position + getOrientation() * 60.0f) );
+	//Util::DrawLine(getTransform()->position, (getTransform()->position + getOrientation() * 60.0f) );
+	Util::DrawLine(m_leftWhisker.Start(), m_leftWhisker.End());
+	Util::DrawLine(m_rightWhisker.Start(), m_rightWhisker.End());
 }
 
 void SpaceShip::update()
 {
+	m_leftWhisker.SetLine(getTransform()->position,
+		(getTransform()->position + Util::getOrientation(m_rotationAngle - 30) * 100.0f));
+	m_rightWhisker.SetLine(getTransform()->position,
+		(getTransform()->position + Util::getOrientation(m_rotationAngle + 30) * 100.0f));
+
 	m_Move();
 }
 
@@ -79,6 +87,31 @@ void SpaceShip::setAccelerationRate(const float rate)
 	m_accelerationRate = rate;
 }
 
+void SpaceShip::setWhisker(glm::vec2 start, glm::vec2 end)
+{
+	m_leftWhisker.SetLine(start, end);
+}
+
+void SpaceShip::setChase(bool behaviour)
+{
+	m_chase = behaviour;
+}
+
+bool SpaceShip::getChase()
+{
+	return false;
+}
+
+void SpaceShip::setIsNear(bool behaviour)
+{
+	m_isNear = behaviour;
+}
+
+bool SpaceShip::getIsNear()
+{
+	return false;
+}
+
 void SpaceShip::setOrientation(const glm::vec2 orientation)
 {
 	m_orientation = orientation;
@@ -108,7 +141,11 @@ void SpaceShip::m_Move()
 	auto deltaTime = TheGame::Instance()->getDeltaTime();
 
 	// direction with magnitude
-	m_targetDirection = m_destination - getTransform()->position;
+	if (m_chase == false)
+	{
+		m_targetDirection = getTransform()->position - m_destination;
+	}
+	else { m_targetDirection = m_destination - getTransform()->position; }
 	
 	// normalized direction
 	m_targetDirection = Util::normalize(m_targetDirection);
@@ -138,4 +175,32 @@ void SpaceShip::m_Move()
 	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_maxSpeed);
 
 	getTransform()->position += getRigidBody()->velocity;
+
+	auto target_destination = sqrt((m_destination.x - getTransform()->position.x) * (m_destination.x - getTransform()->position.x) + (m_destination.y - getTransform()->position.y) * (m_destination.y - getTransform()->position.y));
+
+	// Arrival method
+	if (m_isNear == true)
+	{
+		if (target_destination < 300.0f)
+		{
+			m_maxSpeed = 5.0f;
+		}
+
+		if (target_destination < 100.0f)
+		{
+			m_maxSpeed = 2.0f;
+		}
+
+		if (target_destination < 20.0f)
+		{
+			m_maxSpeed = 0.0f;
+			m_accelerationRate = 0.0f;
+		}
+	}
+
+	else
+	{
+		m_maxSpeed = 10.0f;
+		m_accelerationRate = 10.0f;
+	}
 }

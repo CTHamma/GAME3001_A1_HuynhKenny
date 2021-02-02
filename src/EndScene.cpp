@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "glm/gtx/string_cast.hpp"
 #include "EventManager.h"
+#include "Renderer.h"
 
 EndScene::EndScene()
 {
@@ -15,6 +16,7 @@ EndScene::~EndScene()
 void EndScene::draw()
 {
 	drawDisplayList();
+	SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
 }
 
 void EndScene::update()
@@ -40,7 +42,7 @@ void EndScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_LEFT))
 	{
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	}
