@@ -41,11 +41,10 @@ void PlayScene::update()
 	//CollisionManager::AABBCheck(m_pSpaceShip, m_pTarget);
 
 	if (CollisionManager::lineRectCheck(m_pSpaceShip->m_leftWhisker.Start(), m_pSpaceShip->m_leftWhisker.End(),
-		(m_pObstacle->getTransform()->position - glm::vec2(50.0f, 25.0f)), 300.0f, 250.0f))
+		(m_pObstacle->getTransform()->position - glm::vec2(25.0f, 12.5f)), 300.0f, 250.0f))
 	{ 
-		m_pSpaceShip->setMaxSpeed(2.0f);
 		m_pSpaceShip->getRigidBody()->velocity.y += 0.2f;
-		m_pSpaceShip->setDirection(Util::normalize(m_pSpaceShip->getRigidBody()->velocity));	//(Util::signedAngle(m_pSpaceShip->getOrientation(), m_pSpaceShip->getDirection()));
+		m_pSpaceShip->setRotation(135);
 
 		//m_pSpaceShip->setDestination(glm::vec2(250.0f, 450.0f));
 
@@ -58,17 +57,18 @@ void PlayScene::update()
 		//}
 	}
 
-	//else
-	//{
-	//	m_pSpaceShip->setMaxSpeed(10.0f);
-	//	m_pSpaceShip->setRotation(Util::signedAngle(m_pSpaceShip->getOrientation(), m_pSpaceShip->getDirection()));
-	//}
+	if (CollisionManager::lineRectCheck(m_pSpaceShip->m_centreWhisker.Start(), m_pSpaceShip->m_centreWhisker.End(),
+		(m_pObstacle->getTransform()->position - glm::vec2(25.0f, 12.5f)), 300.0f, 250.0f))
+	{
+		m_pSpaceShip->setMaxSpeed(2.0f);
+	}
 
-	//if (CollisionManager::lineRectCheck(m_pSpaceShip->m_rightWhisker.Start(), m_pSpaceShip->m_rightWhisker.End(),
-	//	(m_pObstacle->getTransform()->position - glm::vec2(100.0f, 50.0f)), 300.0f, 250.0f))
-	//{ 
-	//	SoundManager::Instance().playSound("yay", 0);
-	//}
+	if (CollisionManager::lineRectCheck(m_pSpaceShip->m_rightWhisker.Start(), m_pSpaceShip->m_rightWhisker.End(),
+		(m_pObstacle->getTransform()->position - glm::vec2(25.0f, 12.5f)), 300.0f, 250.0f))
+	{ 
+		m_pSpaceShip->getRigidBody()->velocity.y -= 0.2f;
+		m_pSpaceShip->setRotation(45);
+	}
 }
 
 void PlayScene::clean()

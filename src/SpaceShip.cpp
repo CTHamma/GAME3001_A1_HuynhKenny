@@ -35,6 +35,7 @@ void SpaceShip::draw()
 
 	//Util::DrawLine(getTransform()->position, (getTransform()->position + getOrientation() * 60.0f) );
 	Util::DrawLine(m_leftWhisker.Start(), m_leftWhisker.End());
+	Util::DrawLine(m_centreWhisker.Start(), m_centreWhisker.End());
 	Util::DrawLine(m_rightWhisker.Start(), m_rightWhisker.End());
 }
 
@@ -42,6 +43,10 @@ void SpaceShip::update()
 {
 	m_leftWhisker.SetLine(getTransform()->position,
 		(getTransform()->position + Util::getOrientation(m_rotationAngle - 30) * 100.0f));
+
+	m_centreWhisker.SetLine(getTransform()->position,
+		(getTransform()->position + getOrientation() * 150.0f));
+
 	m_rightWhisker.SetLine(getTransform()->position,
 		(getTransform()->position + Util::getOrientation(m_rotationAngle + 30) * 100.0f));
 
@@ -95,6 +100,8 @@ void SpaceShip::setAccelerationRate(const float rate)
 void SpaceShip::setWhisker(glm::vec2 start, glm::vec2 end)
 {
 	m_leftWhisker.SetLine(start, end);
+	m_centreWhisker.SetLine(start, end);
+	m_rightWhisker.SetLine(start, end);
 }
 
 void SpaceShip::setChase(bool behaviour)
