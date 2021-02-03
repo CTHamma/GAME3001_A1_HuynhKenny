@@ -14,7 +14,7 @@ PlayScene::PlayScene()
 	PlayScene::start();
 
 	// Background Music
-	SoundManager::Instance().load("../Assets/audio/aurore.mp3", "BGM", SOUND_MUSIC);
+	SoundManager::Instance().load("../Assets/audio/The Inconceptual One.mp3", "BGM", SOUND_MUSIC);
 	SoundManager::Instance().playMusic("BGM", -1, 0);
 	SoundManager::Instance().setMusicVolume(32);
 }
@@ -41,16 +41,25 @@ void PlayScene::update()
 	//CollisionManager::AABBCheck(m_pSpaceShip, m_pTarget);
 
 	if (CollisionManager::lineRectCheck(m_pSpaceShip->m_leftWhisker.Start(), m_pSpaceShip->m_leftWhisker.End(),
-		(m_pObstacle->getTransform()->position - glm::vec2(100.0f, 50.0f)), 300.0f, 250.0f))
+		(m_pObstacle->getTransform()->position - glm::vec2(50.0f, 25.0f)), 300.0f, 250.0f))
 	{ 
-		SoundManager::Instance().playSound("yay", 0); 
+		m_pSpaceShip->setMaxSpeed(2.0f);
+		m_pSpaceShip->setDestination(glm::vec2(250.0f, 450.0f));
+
+		auto temp_destination = glm::vec2(250.0f, 450.0f);
+		auto temp_radius = sqrt((temp_destination.x - getTransform()->position.x) * (temp_destination.x - getTransform()->position.x) + (temp_destination.y - getTransform()->position.y) * (temp_destination.y - getTransform()->position.y));
+		
+		if (temp_radius < 100.0f)
+		{
+			m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		}
 	}
 
-	if (CollisionManager::lineRectCheck(m_pSpaceShip->m_rightWhisker.Start(), m_pSpaceShip->m_rightWhisker.End(),
-		(m_pObstacle->getTransform()->position - glm::vec2(100.0f, 50.0f)), 300.0f, 250.0f))
-	{ 
-		SoundManager::Instance().playSound("yay", 0);
-	}
+	//if (CollisionManager::lineRectCheck(m_pSpaceShip->m_rightWhisker.Start(), m_pSpaceShip->m_rightWhisker.End(),
+	//	(m_pObstacle->getTransform()->position - glm::vec2(100.0f, 50.0f)), 300.0f, 250.0f))
+	//{ 
+	//	SoundManager::Instance().playSound("yay", 0);
+	//}
 }
 
 void PlayScene::clean()
@@ -112,6 +121,7 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setIsNear(false);
 		m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 300.0f);
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pSpaceShip->setMaxSpeed(10.0f);
 	}
 
 	// Flee
@@ -128,6 +138,7 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setIsNear(false);
 		m_pSpaceShip->getTransform()->position = glm::vec2(450.0f, 400.0f);
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pSpaceShip->setMaxSpeed(10.0f);
 	}
 
 	// Arrive
@@ -144,6 +155,7 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setIsNear(true);
 		m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 300.0f);
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pSpaceShip->setMaxSpeed(10.0f);
 	}
 
 	// Collsion Avoidance
@@ -160,6 +172,7 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setIsNear(false);
 		m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 300.0f);
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pSpaceShip->setMaxSpeed(10.0f);
 	}
 }
 

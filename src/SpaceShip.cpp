@@ -57,6 +57,11 @@ void SpaceShip::setDestination(const glm::vec2 destination)
 	m_destination = destination;
 }
 
+glm::vec2 SpaceShip::getDestination() const
+{
+	return m_destination;
+}
+
 void SpaceShip::setMaxSpeed(const float speed)
 {
 	m_maxSpeed = speed;
@@ -194,13 +199,6 @@ void SpaceShip::m_Move()
 		if (target_destination < 20.0f)
 		{
 			m_maxSpeed = 0.0f;
-			m_accelerationRate = 0.0f;
 		}
-	}
-
-	else
-	{
-		m_maxSpeed = 10.0f;
-		m_accelerationRate = 10.0f;
 	}
 }

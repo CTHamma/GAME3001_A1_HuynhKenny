@@ -7,9 +7,9 @@
 
 Target::Target()
 {
-	TextureManager::Instance()->load("../Assets/textures/planet.png","planet");
+	TextureManager::Instance()->load("../Assets/textures/deathstar.png","deathstar");
 
-	const auto size = TextureManager::Instance()->getTextureSize("planet");
+	const auto size = TextureManager::Instance()->getTextureSize("deathstar");
 	setWidth(size.x);
 	setHeight(size.y);
 	getTransform()->position = glm::vec2(100.0f, 100.0f);
@@ -32,7 +32,7 @@ void Target::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the target
-	TextureManager::Instance()->draw("planet", x, y, 0, 255, true);
+	TextureManager::Instance()->draw("deathstar", x, y, 0, 255, true);
 }
 
 void Target::update()
