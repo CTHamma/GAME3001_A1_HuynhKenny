@@ -44,16 +44,25 @@ void PlayScene::update()
 		(m_pObstacle->getTransform()->position - glm::vec2(50.0f, 25.0f)), 300.0f, 250.0f))
 	{ 
 		m_pSpaceShip->setMaxSpeed(2.0f);
-		m_pSpaceShip->setDestination(glm::vec2(250.0f, 450.0f));
+		m_pSpaceShip->getRigidBody()->velocity.y += 0.2f;
+		m_pSpaceShip->setDirection(Util::normalize(m_pSpaceShip->getRigidBody()->velocity));	//(Util::signedAngle(m_pSpaceShip->getOrientation(), m_pSpaceShip->getDirection()));
 
-		auto temp_destination = glm::vec2(250.0f, 450.0f);
-		auto temp_radius = sqrt((temp_destination.x - getTransform()->position.x) * (temp_destination.x - getTransform()->position.x) + (temp_destination.y - getTransform()->position.y) * (temp_destination.y - getTransform()->position.y));
-		
-		if (temp_radius < 100.0f)
-		{
-			m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
-		}
+		//m_pSpaceShip->setDestination(glm::vec2(250.0f, 450.0f));
+
+		//auto temp_destination = glm::vec2(250.0f, 450.0f);
+		//auto temp_radius = sqrt((temp_destination.x - m_pSpaceShip->getTransform()->position.x) * (temp_destination.x - m_pSpaceShip->getTransform()->position.x) + (temp_destination.y - m_pSpaceShip->getTransform()->position.y) * (temp_destination.y - m_pSpaceShip->getTransform()->position.y));
+		//
+		//if (temp_radius < 100.0f)
+		//{
+		//	m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		//}
 	}
+
+	//else
+	//{
+	//	m_pSpaceShip->setMaxSpeed(10.0f);
+	//	m_pSpaceShip->setRotation(Util::signedAngle(m_pSpaceShip->getOrientation(), m_pSpaceShip->getDirection()));
+	//}
 
 	//if (CollisionManager::lineRectCheck(m_pSpaceShip->m_rightWhisker.Start(), m_pSpaceShip->m_rightWhisker.End(),
 	//	(m_pObstacle->getTransform()->position - glm::vec2(100.0f, 50.0f)), 300.0f, 250.0f))

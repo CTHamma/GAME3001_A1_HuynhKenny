@@ -25,6 +25,8 @@ public:
 	void setMaxSpeed(float speed);
 	glm::vec2 getOrientation() const;
 	void setOrientation(glm::vec2 orientation);
+	void setDirection(glm::vec2 direction);
+	glm::vec2 getDirection() const;
 	float getRotation() const;
 	void setRotation(float angle);
 	float getTurnRate() const;

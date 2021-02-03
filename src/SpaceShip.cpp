@@ -122,6 +122,16 @@ void SpaceShip::setOrientation(const glm::vec2 orientation)
 	m_orientation = orientation;
 }
 
+void SpaceShip::setDirection(glm::vec2 direction)
+{
+	m_targetDirection = direction;
+}
+
+glm::vec2 SpaceShip::getDirection() const
+{
+	return m_targetDirection;
+}
+
 void SpaceShip::setRotation(const float angle)
 {
 	m_rotationAngle = angle;
